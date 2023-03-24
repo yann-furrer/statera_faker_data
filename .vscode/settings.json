@@ -1,0 +1,7 @@
+{
+    "python.analysis.extraPaths": [
+        "./mongo/User",
+        "./mongo/Raw_data",
+        "./mongo/db"
+    ]
+}

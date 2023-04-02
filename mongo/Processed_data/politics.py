@@ -6,8 +6,9 @@ import sys
 sys.path.insert(1, './mongo/db')
 from getVariables import User, RawData
 import json
+data =  RawData.find_one({"_raw_id" :"49f4a110-c83a-11ed-ac50-de5d40a64ae0"})
 
-def normalised_mean(array_of_value):
+def normalized_means(array_of_value):
     #array_of_value = [0.5, 0.4, 0.2, 0.7, 0.8, 0.34, 0.75,0.5, 0.4, 0.2, 0.7, 0.8, 0.34, 0.75]
     
     #calcule de la moyenne
@@ -27,21 +28,22 @@ def normalised_mean(array_of_value):
         d = (value - min)/(max-min)
         #print(value,"d:", d)
         normalised_array.insert(0,d )
-
     mean_normalised = mean(normalised_array)
+    return mean_normalised
 
-   
-    return mean_normalised
-   
-def MBTI():
-  
-    data =  RawData.find_one({"_raw_id" :"49f4a110-c83a-11ed-ac50-de5d40a64ae0"})
-    id = data["_raw_id"]
-   
- 
-    for elem in data["mbti"].keys():
-        #print(data["mbti"][elem])
-        mean_normalised = normalised_mean(data["mbti"][elem])
-    return mean_normalised
-MBTI()
+
+    
+
+
+def MBTI_letter(mean, type):
+    if type == "energy":
+        return 'I' if mean > 0.5 else 'E'
+    elif type == "information":
+        return 'N' if mean > 0.5 else 'S'
+    elif type == "decision":
+        return 'F' if mean > 0.5 else 'T'
+    elif type == "action_mode":
+        return 'P' if mean > 0.5 else 'J'
+
+    
     

@@ -19,6 +19,8 @@ def generate_raw_data(id):
         
         
             },
-            "Behavior":[random.uniform(0,1) for _ in range(size)]
+            "Behavior":{
+                "behavior_type":[random.uniform(0,1) for _ in range(size)], "behavior_ascending": [random.uniform(0,1) for _ in range(size)]
+            }
               }
     return data

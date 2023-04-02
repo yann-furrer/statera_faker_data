@@ -17,7 +17,7 @@ for i in  range(0,10):
     
     id = str(uuid.uuid1())
     User.insert_one(genrate_user_data(id))
-    ProcessedData.insert_one(generate_raw_data(id))
+    RawData.insert_one(generate_raw_data(id))
 
 
 

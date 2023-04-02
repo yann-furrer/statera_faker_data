@@ -39,3 +39,26 @@ def Behavior_type(mean):
         return "Climato Rationnel"
     elif mean == 0.5:
         return "Climato séptique Bêta"
+    
+
+
+def behavior_type_function(array_of_value):
+    type = normalized_means(array_of_value)
+    if type <= 0.45:
+        return "Climatoséptique"
+    elif 0.45 >= type <= 1:
+        return "Ecologiste"
+    else : 
+        return "Bêta" 
+    
+
+def behavior_ascending_function(array_of_value):
+    ascending = normalized_means(array_of_value)
+    if ascending <= 0.25:
+        return "Optimiste"
+    elif 0.25 >= ascending <= 0.5:
+        return "Pessimite"
+    elif 0.5 >= ascending <= 0.75:
+        return "Egoîste"
+    else : 
+        return "Rationnel" 

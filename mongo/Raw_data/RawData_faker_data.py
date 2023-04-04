@@ -14,10 +14,10 @@ def generate_raw_data(id):
             
             },
             "politics_opinion": {
-        "imigration_stat": [random.uniform(0,1) for _ in range(size)]  ,
-        "chomage_stat":[random.uniform(0,1) for _ in range(size)],
-        
-        
+        "tolerance_stat": [random.uniform(0,1) for _ in range(size)]  ,
+        "sharing_stat":[random.uniform(0,1) for _ in range(size)],
+        "individualist_stat":[random.uniform(0,1) for _ in range(size)],
+        "compliance_stat":[random.uniform(0,1) for _ in range(size)],
             },
             "Behavior":{
                 "behavior_type":[random.uniform(0,1) for _ in range(size)], "behavior_ascending": [random.uniform(0,1) for _ in range(size)]

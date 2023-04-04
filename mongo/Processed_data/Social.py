@@ -28,9 +28,11 @@ def get_coordinate(data, i):
    
     return min(lat),max(lat), min(long), max(long)
 
-print(len(dj["features"]))
+#print(len(dj["features"]))
+
+
+
 def get_CSP_data(long , lat):
-    
     # df est le nom du fichier à importer 
     for i in range(len(dj["features"])):
         #print(i)
@@ -39,10 +41,11 @@ def get_CSP_data(long , lat):
        
         if minlat <= long <= maxlat and minlong <= lat <= maxlong:
       
-            print("true") 
+            #print("true") 
         
-            return dj["features"][i]
-       
+            return dj["features"][i]["properties"]
+    print(long, lat)
+    print("echec de la recherche")
 #get_CSP_data(2.32100, 43.10300)  
 
 
@@ -50,11 +53,11 @@ def get_CSP_data(long , lat):
 
 
 def menage_data_transform(data, age ):
-  
+    #print(data)
     ind_snv = data["Ind_snv"] / data["Ind"]
     ind = data["Ind"]
     mediam_income = 22040 - ind_snv
-    print("mediam_income : ", mediam_income)
+    #print("mediam_income : ", mediam_income)
     men_pauv = data["Men_pauv"]
     men = data["Men"]
     ratio_log_soc = data["Log_soc"] /(data["Log_soc"] + data["Log_av45"] + data["Log_70_90"] + data["Log_ap90"]) * 100

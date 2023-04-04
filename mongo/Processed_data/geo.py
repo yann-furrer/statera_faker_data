@@ -7,7 +7,9 @@ import tqdm
 df = []
 
 def geocoding(address= str):
-    address = "7 Rue Henri Amédée Bellivier, Saint-André-de-Cubzac, France"
+  
+    #address = "7 Rue Henri Amédée Bellivier, Saint-André-de-Cubzac, France"
+    
     url = "https://api.geoapify.com/v1/geocode/search?text="+urllib.parse.quote(address)+"&apiKey=0a16e6c5e3154a89b584d624b1f4acfd"
     #AIzaSyBamWuqidmGQgy6XPKUEaMOC8INvLcP_qs
     #url ="https://maps.googleapis.com/maps/api/geocode/json?address="+urllib.parse.quote(address)+"&key=AIzaSyBamWuqidmGQgy6XPKUEaMOC8INvLcP_qs&channel=1"
@@ -16,11 +18,11 @@ def geocoding(address= str):
 
     resp = requests.get(url, headers=headers).json()
 
-    print(resp["features"][0]["properties"]["city"])
-    return resp["features"][0]["geometry"]["coordinates"][0], resp["features"][0]["geometry"]["coordinates"][1], resp["features"][0]["properties"]["city"]
+    #print(resp["features"][0]["properties"]["city"])
+    return resp["features"][0]["geometry"]["coordinates"][0], resp["features"][0]["geometry"]["coordinates"][1]
 
   #exemple result (-0.459123, 44.991016) long / lat
-geocoding()
+
 def get_coordinate(data, i): 
    
 
@@ -53,7 +55,9 @@ def get_CSP_data(long , lat, df):
        
         if minlat <= long <= maxlat and minlong <= lat <= maxlong:
       
-          print("true") 
+          #print("true") 
 
-        return df["features"][i]
+          return df["features"][i]
+    print("aune data trouvé")
+    
 #get_CSP_data(2.32100, 43.10300)    

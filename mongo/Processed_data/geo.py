@@ -18,7 +18,7 @@ def geocoding(address= str):
 
     resp = requests.get(url, headers=headers).json()
 
-    #print(resp["features"][0]["properties"]["city"])
+    #print("géo",resp["features"][0]["properties"]["city"])
     return resp["features"][0]["geometry"]["coordinates"][0], resp["features"][0]["geometry"]["coordinates"][1]
 
   #exemple result (-0.459123, 44.991016) long / lat

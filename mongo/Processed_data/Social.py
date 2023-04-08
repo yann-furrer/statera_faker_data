@@ -53,15 +53,13 @@ def get_CSP_data(long , lat):
 
 
 def menage_data_transform(data, age ):
-    #print(data)
+   
     ind_snv = data["Ind_snv"] / data["Ind"]
-    ind = data["Ind"]
-    mediam_income = 22040 - ind_snv
-    #print("mediam_income : ", mediam_income)
+ 
     men_pauv = data["Men_pauv"]
     men = data["Men"]
-    ratio_log_soc = data["Log_soc"] /(data["Log_soc"] + data["Log_av45"] + data["Log_70_90"] + data["Log_ap90"]) * 100
-    ratio_men_pauv = men_pauv/ (men_pauv +men)
+    ratio_log_soc = data["Log_soc"] /(data["Log_soc"] + data["Log_av45"] + data["Log_70_90"] + data["Log_ap90"])
+    ratio_men_pauv = men_pauv / (men_pauv +men)
     Nb_ind = data["Ind"]
     men_prop = data["Men_prop"]
     if age > 18:
@@ -73,20 +71,22 @@ def menage_data_transform(data, age ):
     
     
 
-    #print(Nb_ind, ratio_log_soc, ratio_men_pauv , ind_snv)
+   
     return Nb_ind, ratio_log_soc, ratio_men_pauv , ind_snv, ind_label
-#menage_data_transform(dj["features"][0]["properties"])
+
 
 
 def CSP_city_type(Nb_ind):
-      
+    #convertion de 200m2 en km2  
+    Nb_ind = Nb_ind * 5
     city_type = None
-    income_label = None
-    choice_data =[]
+
     if Nb_ind >= 400:
           city_type = "Métropole"
-    elif 400 <= Nb_ind >= 40:
-           city_type = "Ville"
+    elif 400 <= Nb_ind >= 150:
+           city_type = "Moyenne Ville"
+    elif 150 <= Nb_ind >= 50:
+           city_type = "Petite Ville"
     else:
            city_type = "Campagne"
     
@@ -101,11 +101,13 @@ def CSP_city_type(Nb_ind):
 # max Ind_snv: 66061.48421052631
 # median Ind_snv: 22296.449
 # quartile Ind_snv: [20253.633333333335, 22296.449, 24740.878259005145]
+
 def est_income(income):
     quantiles_25 = 20253.633333333335
     median = 22296.449
     quantiles_75 = 24740.878259005145
-    
+    better_off = 3800
+    rich =  45600
     if income < quantiles_25:
         label_income = "Pauvre"
         return label_income
@@ -115,7 +117,10 @@ def est_income(income):
     elif median <= income <= quantiles_75:
         label_income = "classe moyenne supérieure"
         return label_income
-    elif income > quantiles_75:
+    elif better_off <= income <= rich:
+        label_income = "aisé"
+        return label_income
+    elif income > 3800:
         label_income = "riche" 
         return label_income
     return label_income

@@ -14,11 +14,16 @@ from tqdm import tqdm
 #User.delete_one({"_id":0})
 
 
-for i in  tqdm(range(0,100)):
+# for i in  tqdm(range(0,300)):
     
-    id = str(uuid.uuid1())
-    User.insert_one(genrate_user_data(id))
-    RawData.insert_one(generate_raw_data(id))
+#     id = str(uuid.uuid1())
+#     User.insert_one(genrate_user_data(id))
+#     RawData.insert_one(generate_raw_data(id))
 
 
 
+id = str(uuid.uuid1())
+data = {"_id" : id,"income": 2956.35, "nb_ind" : 200, "nb_pauvre" : 100, "nb_menage" : 100, "other_data" :"..."}
+
+
+User.insert_one(data)

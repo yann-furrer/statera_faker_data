@@ -16,23 +16,20 @@ def normalized_means(array_of_value):
     # c'est la moyenne repésentant une choix neutre
     # une fonction de normalisation produit un résultat entre 0 t 1
     # https://www.datanovia.com/en/fr/blog/comment-normaliser-et-standardiser-les-donnees-dans-r-pour-une-visualisation-en-heatmap-magnifique/#:~:text=La%20normalisation%20standard%2C%20%C3%A9galement%20appel%C3%A9e,unit%C3%A9s%20d'%C3%A9cart%2Dtype.
-    mean_mbti = 0.5
+    #mean_mbti = 0.5
     #std_ = np.std(array_of_value)
     #calcul du max et min pour normaliser les données
-    max =np.max(array_of_value)
-    min = np.min(array_of_value)
+    #max =np.max(array_of_value)
+   # min = np.min(array_of_value)
 
     #creation d'un tableau vide pour les données normalisées
-    normalised_array = []
-    for value in array_of_value:
-        d = (value - min)/(max-min)
-        #print(value,"d:", d)
-        normalised_array.insert(0,d )
+   #####    #print(value,"d:", d)
+    #    normalised_array.insert(0,d )
 
-    mean_normalised = mean(normalised_array)
+    #mean_normalised = mean(normalised_array)
 
    
-    return mean_normalised
+    return mean_
 
 
     

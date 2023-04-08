@@ -12,11 +12,10 @@ from User_faker_data import genrate_user_data
 from RawData_faker_data import generate_raw_data
 #User.delete_one({"_id":0})
 from tqdm import tqdm
-
-    
-all_id_request= RawData.distinct('_raw_id')
-
-for i in  tqdm(all_id_request):
-    print(i)
-
+from datetime import datetime
+id = "a28f697e-d328-11ed-b771-de5d40a64ae1 "
+o = ProcessedData.find_one({"process_id": id, },{"_id"} )
+if ProcessedData.find_one({"process_id": id, },{"_id"} ) == None:
+    print(ProcessedData.find_one({"process_id": id, },{"_id"}) )
+print(o)
 

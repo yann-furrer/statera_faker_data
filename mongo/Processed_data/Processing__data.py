@@ -6,7 +6,7 @@ sys.path.insert(1, './mongo/Processed_data')
 from getVariables import User, RawData, ProcessedData
 from mbti_ import normalized_means, MBTI_letter
 from geo import geocoding
-from behavior import Behavior_type, behavior_ascending_function
+from behavior import Behavior_type, behavior_ascending_function, behavior_type_function
 from Social import menage_data_transform, get_CSP_data, get_coordinate, est_income, CSP_city_type
 from politics import politics_label
 from datetime import datetime
@@ -19,17 +19,32 @@ import pandas as pd
 
 
 def proccesing():
-    error = 0
-    try:
+        error = 0
+    
         print("Load a data_test.geojson ")
         all_id_request= RawData.distinct('_raw_id')
-        #print(len(all_id_request))
+        print(len(all_id_request))
         for id in  tqdm(all_id_request):
-        
+          
+            if ProcessedData.find_one({"process_id": id, },{"lastupdate"} )== None:
                 data = RawData.find_one({"_raw_id": id})
                 user_data = User.find_one({"_id": id},{})
-                #print(data)
                 
+                #print(data)
+                try:
+                #Social data
+                    long, lat = geocoding(user_data["addresse"])
+                    CSP_data =  get_CSP_data(long, lat)
+                    nb_ind,ratio_log_soc, ratio_men_pauv, estimed_income, Ind_label = menage_data_transform(CSP_data, user_data["age"])
+                    label_income = est_income(estimed_income)
+                    city_type = CSP_city_type(nb_ind)
+                except:
+                     nb_ind,ratio_log_soc, ratio_men_pauv, estimed_income, Ind_label , label_income, city_type = 0,0,0,0,0,0,0
+                    
+                     print(error)
+                     print("erreur dans l'adresse")
+                     print(user_data["addresse"])
+                     error = error + 1
                 #mbti
                 energy_stat = normalized_means(data["mbti"]["energy"])
                 information_stat = normalized_means(data["mbti"]["information"])
@@ -49,18 +64,8 @@ def proccesing():
                 compliance_stat =normalized_means(data["politics_opinion"]["compliance_stat"]),
 
 
-                #Social data
-                long, lat = geocoding(user_data["addresse"])
-                CSP_data =  get_CSP_data(long, lat)
-                nb_ind,ratio_log_soc, ratio_men_pauv, estimed_income, Ind_label = menage_data_transform(CSP_data, user_data["age"])
-                label_income = est_income(estimed_income)
                     
-                #kk = Behavior_type(behavior_type_stat)
-                #print("ooooee ",Behavior_type(behavior_type_stat))
-                
-                #print(CSP_data)
-                
-                #print("bahe : ", behavior_type_stat)
+               
 
 
 
@@ -83,27 +88,21 @@ def proccesing():
                 },
                 "Social_data":{ "longitude":long,"latitude":lat, "age":user_data["age"], 
                     "CSP":{
-                        "estimed_income":estimed_income,"Ind": Ind_label,  "income_label": label_income, "city_type": CSP_city_type(nb_ind), "poor_rate_area_200m":ratio_men_pauv , 'social_housing_rate_area_200m':ratio_log_soc
+                        "estimed_income":estimed_income,"Ind": Ind_label,  "income_label": label_income, "city_type": city_type, "poor_rate_area_200m":ratio_men_pauv , 'social_housing_rate_area_200m':ratio_log_soc
                         }
                 },
 
-                "Behavoir": {"behavior__assandant_stat" : behavior_ascending_stat,  "behavior_type_stat" :behavior_type_stat ,"behavior_type":behavior_type  ,"behavior_ascandant" :behavior_ascending_function(behavior_ascending_stat)}, 
+                "Behavoir": {"behavior__assandant_stat" : behavior_ascending_stat,  "behavior_type_stat" :behavior_type_stat ,"behavior_type":behavior_type_function(behavior_type_stat)  ,"behavior_ascandant" :behavior_ascending_function(behavior_ascending_stat)}, 
                 "lastupdate": datetime.now()
                 
 
             }
                 ProcessedData.insert_one(post_data)
-    except:
-        print("erreur dans l'adresse")
-        print(user_data["addresse"])
-        error = error + 1
+    
+        
            # print("erreur dans l'adresse")
         #print( post_data)
-    print("ratio error :", error /len(all_id_request)*100, "%")
+        print("ratio error :", error /len(all_id_request)*100, "%")
     
 
 proccesing()
-
-
-        
-

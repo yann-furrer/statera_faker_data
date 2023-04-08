@@ -27,19 +27,18 @@ def normalized_means(array_of_value):
     return mean(normalised_array)
    
 
-def Behavior_type(mean_):
+def behavior_ascending_function(mean_):
 
-    #print("mean " ,mean_)
+   
     if mean_ < 0.25:
-        return "Optimiste"
+        return "Pessimiste"
     elif 0.25 >= mean_ < 0.5:
-        return " Pessimiste"
+        return " Optimiste"
     elif 0.5 >= mean_ < 0.75:
-        return "Egoîste"
+        return "Rationnel"
     elif 0.75 >= mean_ < 1:
-        return " Rationnel"
-    # elif mean_ == 1:
-    #     return "Climato séptique Bêta"
+        return "Egoîste"
+  
     
 
 
@@ -53,13 +52,3 @@ def behavior_type_function(array_of_value):
         return "Bêta" 
     
 
-def behavior_ascending_function(mean):
-  
-    if mean <= 0.25:
-        return "Optimiste"
-    elif 0.25 >= mean <= 0.5:
-        return "Pessimite"
-    elif 0.5 >= mean <= 0.75:
-        return "Egoîste"
-    else : 
-        return "Rationnel" 

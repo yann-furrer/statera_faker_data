@@ -6,7 +6,7 @@ sys.path.insert(1, './mongo/Processed_data')
 from getVariables import User, RawData, ProcessedData
 from mbti_ import normalized_means, MBTI_letter
 from geo import geocoding
-from behavior import Behavior_type, behavior_ascending_function, behavior_type_function
+from behavior import behavior_ascending_function, behavior_type_function,set_polution_type, polution_type_function, find_indices
 from Social import menage_data_transform, get_CSP_data, get_coordinate, est_income, CSP_city_type
 from politics import politics_label
 from datetime import datetime
@@ -18,10 +18,10 @@ import pandas as pd
 
 
 
+print("Load a data_test.geojson ")
 def proccesing():
         error = 0
     
-        print("Load a data_test.geojson ")
         all_id_request= RawData.distinct('_raw_id')
         print(len(all_id_request))
         for id in  tqdm(all_id_request):
@@ -29,8 +29,7 @@ def proccesing():
             if ProcessedData.find_one({"process_id": id, },{"lastupdate"} )== None:
                 data = RawData.find_one({"_raw_id": id})
                 user_data = User.find_one({"_id": id},{})
-                
-                #print(data)
+              
                 try:
                 #Social data
                     long, lat = geocoding(user_data["addresse"])
@@ -55,7 +54,7 @@ def proccesing():
                 #Behavior
                 behavior_type_stat = normalized_means(data["Behavior"]["behavior_type"])
                 behavior_ascending_stat = normalized_means(data["Behavior"]["behavior_ascending"])
-                behavior_type =Behavior_type(behavior_type_stat)
+                #behavior_type = behavior_type_function(behavior_type_stat)
 
                 #Politics
                 tolerance_stat = normalized_means(data["politics_opinion"]["tolerance_stat"]) ,
@@ -92,16 +91,17 @@ def proccesing():
                         }
                 },
 
-                "Behavoir": {"behavior__assandant_stat" : behavior_ascending_stat,  "behavior_type_stat" :behavior_type_stat ,"behavior_type":behavior_type_function(behavior_type_stat)  ,"behavior_ascandant" :behavior_ascending_function(behavior_ascending_stat)}, 
+                "Behavior": {"behavior_assandant_stat" : behavior_ascending_stat,  "behavior_type_stat" :behavior_type_stat ,"behavior_type":behavior_type_function(behavior_type_stat)  ,"behavior_ascandant" :behavior_ascending_function(behavior_ascending_stat)}, 
+                "polution" : set_polution_type(data),
                 "lastupdate": datetime.now()
                 
 
             }
+                #ajout de l'objet pollution dans le json
                 ProcessedData.insert_one(post_data)
     
         
-           # print("erreur dans l'adresse")
-        #print( post_data)
+          
         print("ratio error :", error /len(all_id_request)*100, "%")
     
 

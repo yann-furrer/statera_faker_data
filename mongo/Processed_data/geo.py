@@ -18,11 +18,11 @@ def geocoding(address= str):
 
     resp = requests.get(url, headers=headers).json()
 
-    #print("géo",resp["features"][0]["properties"]["city"])
-    return resp["features"][0]["geometry"]["coordinates"][0], resp["features"][0]["geometry"]["coordinates"][1]
+    #print("géo",resp["features"][0]["properties"])
+    return resp["features"][0]["geometry"]["coordinates"][0], resp["features"][0]["geometry"]["coordinates"][1] ,resp["features"][0]["properties"]["city"], resp["features"][0]["properties"]["postcode"]
 
   #exemple result (-0.459123, 44.991016) long / lat
-
+#geocoding("kj")
 def get_coordinate(data, i): 
    
 

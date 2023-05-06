@@ -33,13 +33,13 @@ def behavior_ascending_function(mean_):
    
     if mean_ < 0.25:
         return "Pessimiste"
-    elif 0.25 >= mean_ < 0.5:
+    elif 0.25 <= mean_ <= 0.5:
         return " Optimiste"
-    elif 0.5 >= mean_ < 0.75:
+    elif 0.5 <= mean_ <= 0.75:
         return "Rationnel"
-    elif 0.75 >= mean_ < 1:
+    elif 0.75 <= mean_ <=1:
         return "Egoiste"
-    
+
 
 
 
@@ -47,12 +47,10 @@ def behavior_type_function(mean_):
    
     if mean_ <= 0.45:
         return "climatoseptique"
-    elif 0.33 >= mean_ <= 0.66:
+    elif 0.45 <= mean_ <= 0.55:
         return "beta"
-    else : 
+    elif mean_ > 0.55 : 
         return "ecologiste" 
-    
-
 
 
 

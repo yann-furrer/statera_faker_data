@@ -32,18 +32,20 @@ def normalized_means(array_of_value):
     return mean_
 
 
+
+
+
     
 
 
 def MBTI_letter(mean, type):
+   
     if type == "energy":
-        return 'I' if mean > 0.5 else 'E'
+        return ('I', type ) if mean > 0.5 else ("E" , type)
     elif type == "information":
-        return 'N' if mean > 0.5 else 'S'
+        return ('N', type) if mean > 0.5 else ('S', type)
     elif type == "decision":
-        return 'F' if mean > 0.5 else 'T'
+        return ('F', type) if mean > 0.5 else ('T', type)
     elif type == "action_mode":
-        return 'P' if mean > 0.5 else 'J'
+        return ('P', type) if mean > 0.5 else ('J', type)
 
-    
-    

@@ -18,7 +18,7 @@ mydatabase = db['Statera']
 mydatabase.create_collection('user')
 mydatabase.create_collection('raw_data')
 mydatabase.create_collection('processed_data')
-
+mydatabase.create_collection('MBTI_info')
 
 #mydatabase.drop_collection('DB')
 #print(mycollection.find_one())

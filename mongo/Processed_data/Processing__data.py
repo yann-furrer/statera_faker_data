@@ -23,7 +23,7 @@ def proccesing():
         error = 0
     
         all_id_request= RawData.distinct('_raw_id')
-        print(len(all_id_request))
+        #print(len(all_id_request))
         for id in  tqdm(all_id_request):
           
             if ProcessedData.find_one({"process_id": id, },{"lastupdate"} )== None:
@@ -32,7 +32,7 @@ def proccesing():
               
                 try:
                 #Social data
-                    long, lat = geocoding(user_data["addresse"])
+                    long, lat,city, postocde = geocoding(user_data["addresse"])
                     CSP_data =  get_CSP_data(long, lat)
                     nb_ind,ratio_log_soc, ratio_men_pauv, estimed_income, Ind_label = menage_data_transform(CSP_data, user_data["age"])
                     label_income = est_income(estimed_income)
@@ -40,8 +40,8 @@ def proccesing():
                 except:
                      nb_ind,ratio_log_soc, ratio_men_pauv, estimed_income, Ind_label , label_income, city_type = 0,0,0,0,0,0,0
                     
-                     print(error)
-                     print("erreur dans l'adresse")
+                    
+
                      print(user_data["addresse"])
                      error = error + 1
                 #mbti
@@ -49,7 +49,7 @@ def proccesing():
                 information_stat = normalized_means(data["mbti"]["information"])
                 decision_stat = normalized_means(data["mbti"]["decision"])
                 action_mode = normalized_means(data["mbti"]["action_mode"])
-
+                #print("mbti", energy_stat, information_stat, decision_stat, action_mode)
 
                 #Behavior
                 behavior_type_stat = normalized_means(data["Behavior"]["behavior_type"])
@@ -71,11 +71,11 @@ def proccesing():
 
                 post_data = {
                 "process_id" : id, "MBTI":{
-                    "energy":{"energy_letter": MBTI_letter(energy_stat, "energy"), "energy_stat":energy_stat },
-                    "information":{"information_letter": MBTI_letter(energy_stat, "information"), "informatiob_stat": information_stat},
-                    "decision":{"decision_letter": MBTI_letter(energy_stat, "decision"), "decision_stat": decision_stat},
-                    "action_mode":{"action_mode_letter": MBTI_letter(energy_stat, "action_mode"), "action_mode_stat": action_mode},
-                    "result": str(MBTI_letter(energy_stat, "energy") + MBTI_letter(energy_stat, "information") + MBTI_letter(energy_stat, "decision") + MBTI_letter(energy_stat, "action_mode"))
+                    "energy":{"energy_letter": str(MBTI_letter(energy_stat, "energy")[0]), "energy_stat":energy_stat , "MBTI_type": str(MBTI_letter(energy_stat, "energy",)[1])},
+                    "information":{"information_letter": str(MBTI_letter(information_stat, "information")[0]), "information_stat": information_stat, "MBTI_type": str(MBTI_letter(information_stat, "information")[1])},
+                    "decision":{"decision_letter": str(MBTI_letter(decision_stat, "decision")[0]), "decision_stat": decision_stat, "MBTI_type": str(MBTI_letter(decision_stat, "decision")[1])},
+                    "action_mode":{"action_mode_letter": str(MBTI_letter(action_mode, "action_mode")[0]), "action_mode_stat": action_mode, "MBTI_type": str(MBTI_letter(action_mode, "action_mode")[1]) },
+                    "result": str(MBTI_letter(energy_stat, "energy")[0]) + str(MBTI_letter(information_stat, "information")[0]) + str(MBTI_letter(decision_stat, "decision")[0]) + str(MBTI_letter(action_mode, "action_mode")[0])
                 },
                 "Politics":{
                     "tolerance_stat": normalized_means(data["politics_opinion"]["tolerance_stat"]) ,
@@ -85,7 +85,7 @@ def proccesing():
                     "politics_label": politics_label(tolerance_stat, sharing_stat, individualist_stat, compliance_stat)
                     
                 },
-                "Social_data":{ "longitude":long,"latitude":lat, "age":user_data["age"], 
+                "Social_data":{ "longitude":long,"latitude":lat, "age":user_data["age"], "city":city, "postcode":postocde,
                     "CSP":{
                         "estimed_income":estimed_income,"Ind": Ind_label,  "income_label": label_income, "city_type": city_type, "poor_rate_area_200m":ratio_men_pauv , 'social_housing_rate_area_200m':ratio_log_soc
                         }

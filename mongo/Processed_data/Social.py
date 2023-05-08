@@ -103,24 +103,24 @@ def CSP_city_type(Nb_ind):
 # quartile Ind_snv: [20253.633333333335, 22296.449, 24740.878259005145]
 
 def est_income(income):
-    quantiles_25 = 20253.633333333335
-    median = 22296.449
+    pauvre = 12756
+    median_income = 22240
     quantiles_75 = 24740.878259005145
     better_off = 3800
-    rich =  45600
-    if income < quantiles_25:
+    riche =  43200
+    if income < pauvre:
         label_income = "Pauvre"
         return label_income
-    elif quantiles_25 <= income <= median:
+    elif pauvre <= income <= median_income:
         label_income = "classe moyenne inférieure"
         return label_income
-    elif median <= income <= quantiles_75:
+    elif median_income <= income <= quantiles_75:
         label_income = "classe moyenne supérieure"
         return label_income
-    elif better_off <= income <= rich:
+    elif better_off <= income <= riche:
         label_income = "aisé"
         return label_income
-    elif income > 3800:
+    elif income > riche:
         label_income = "riche" 
         return label_income
     return label_income

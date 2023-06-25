@@ -105,7 +105,6 @@ def CSP_city_type(Nb_ind):
 def est_income(income):
     pauvre = 12756
     median_income = 22240
-    quantiles_75 = 24740.878259005145
     better_off = 3800
     riche =  43200
     if income < pauvre:
@@ -114,7 +113,7 @@ def est_income(income):
     elif pauvre <= income <= median_income:
         label_income = "classe moyenne inférieure"
         return label_income
-    elif median_income <= income <= quantiles_75:
+    elif median_income <= income <= better_off:
         label_income = "classe moyenne supérieure"
         return label_income
     elif better_off <= income <= riche:

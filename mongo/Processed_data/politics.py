@@ -32,4 +32,8 @@ def politics_label(tolerance_stat,sharing_stat, individualist_stat,compliance_st
     if mean(compliance_stat) > 0.5 and 0.40 <= avg_politics_opinion(tolerance_stat,sharing_stat, individualist_stat,compliance_stat)<= 0.60: 
         politics_label = "Extreme "+ politics_label
 
-    return politics_label
+    return 
+
+
+
+

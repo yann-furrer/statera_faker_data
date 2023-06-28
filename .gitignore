@@ -1,2 +1,6 @@
 *.mbti2.pnyb
 */data/
+*Processed_data/pycache/
+*Raw_data
+*/User/pycache
+*__pycache__/
